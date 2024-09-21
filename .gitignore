@@ -1,0 +1,6 @@
+# Compiling files
+*.pyc
+*/*.pyc
+
+Basic_images/
+Obj_detection/
