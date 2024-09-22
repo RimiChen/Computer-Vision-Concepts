@@ -22,10 +22,10 @@ filenames = load_images_from_folder(folder)
 print(filenames)
 
 
-# Load a motion-blurred image (replace with your image path)
+# Load a motion-blurred image 
 image = cv2.imread(folder + filenames[0], cv2.IMREAD_GRAYSCALE)
 
-# Apply Wiener filtering (note that this is not available in OpenCV)
+# Apply Wiener filtering
 wiener_filtered = wiener(image, (5, 5))
 
 # Show the original and filtered images
@@ -45,10 +45,10 @@ plt.axis('off')
 
 plt.show()
 
-# Load a motion-blurred image (replace with your image path)
+# Load a motion-blurred image
 image = cv2.imread(folder + filenames[0], cv2.IMREAD_GRAYSCALE)
 
-# Apply Wiener filtering with a kernel size (window size)
+# Apply Wiener filtering with a kernel size
 wiener_filtered = wiener(image, (5, 5))
 
 # Normalize the result to the range [0, 255]

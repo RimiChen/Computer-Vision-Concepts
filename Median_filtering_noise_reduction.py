@@ -20,7 +20,7 @@ def load_images_from_folder(folder):
 filenames = load_images_from_folder(folder)
 print(filenames)
 
-# Load a noisy image (replace with your image path)
+# Load a noisy image 
 image = cv2.imread(folder + filenames[0], cv2.IMREAD_GRAYSCALE)
 
 # Apply Median filtering with a kernel size of 5

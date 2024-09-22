@@ -1,14 +1,14 @@
 import cv2
+from skimage import restoration, io
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+
 
 folder = "Blur_small/"
 
 # Load images from a folder and resize them
 def load_images_from_folder(folder):
-    images = []
-    labels = []
     filenames = []
     for filename in os.listdir(folder):
         img = cv2.imread(os.path.join(folder, filename), cv2.IMREAD_GRAYSCALE)
@@ -22,27 +22,29 @@ def load_images_from_folder(folder):
 filenames = load_images_from_folder(folder)
 print(filenames)
 
-# Load a noisy image
-image = cv2.imread(folder + filenames[0], cv2.IMREAD_GRAYSCALE)
 
-# Apply Gaussian filtering with a kernel size of 5x5 and sigmaX = 1
-# Experimenting with different kernel sizes and sigma values
-gaussian_filtered = cv2.GaussianBlur(image, (7, 7), sigmaX=1)
-# gaussian_filtered = cv2.GaussianBlur(image, (5, 5), sigmaX=1)
+# Load the blurred image (assumed to be grayscale or convert it to grayscale)
+image = io.imread(folder + filenames[0], as_gray=True)
 
-# Show the original and filtered images
-plt.figure(figsize=(10, 5))
+# Initial estimate of the PSF
+psf_size = 15  # Adjust based on expected blur
+psf = np.ones((psf_size, psf_size)) / (psf_size ** 2)
 
-# Display the original image
+# Perform Richardson-Lucy deconvolution
+num_iter = 30  # Number of iterations
+deconvolved_image = restoration.richardson_lucy(image, psf, num_iter=num_iter)
+
+# Display the results
+plt.figure(figsize=(15, 5))
+
 plt.subplot(1, 2, 1)
-plt.title('Original Image')
+plt.title('Original Blurred Image')
 plt.imshow(image, cmap='gray')
 plt.axis('off')
 
-# Display the Gaussian filtered image
 plt.subplot(1, 2, 2)
-plt.title('Gaussian Filtered Image')
-plt.imshow(gaussian_filtered, cmap='gray')
+plt.title('Deblurred Image (Richardson-Lucy)')
+plt.imshow(deconvolved_image, cmap='gray')
 plt.axis('off')
 
 plt.show()
