@@ -7,8 +7,6 @@ folder = "Blur_small/"
 
 # Load images from a folder and resize them
 def load_images_from_folder(folder):
-    images = []
-    labels = []
     filenames = []
     for filename in os.listdir(folder):
         img = cv2.imread(os.path.join(folder, filename), cv2.IMREAD_GRAYSCALE)
@@ -25,10 +23,8 @@ print(filenames)
 # Load a noisy image (replace with your image path)
 image = cv2.imread(folder + filenames[0], cv2.IMREAD_GRAYSCALE)
 
-# Apply Gaussian filtering with a kernel size of 5x5 and sigmaX = 1
-# Experimenting with different kernel sizes and sigma values
-gaussian_filtered = cv2.GaussianBlur(image, (7, 7), sigmaX=1)
-# gaussian_filtered = cv2.GaussianBlur(image, (5, 5), sigmaX=1)
+# Apply Median filtering with a kernel size of 5
+median_filtered = cv2.medianBlur(image, 5)
 
 # Show the original and filtered images
 plt.figure(figsize=(10, 5))
@@ -39,10 +35,10 @@ plt.title('Original Image')
 plt.imshow(image, cmap='gray')
 plt.axis('off')
 
-# Display the Gaussian filtered image
+# Display the Median filtered image
 plt.subplot(1, 2, 2)
-plt.title('Gaussian Filtered Image')
-plt.imshow(gaussian_filtered, cmap='gray')
+plt.title('Median Filtered Image (5x5 Kernel)')
+plt.imshow(median_filtered, cmap='gray')
 plt.axis('off')
 
 plt.show()
